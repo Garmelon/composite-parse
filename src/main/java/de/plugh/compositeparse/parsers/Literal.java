@@ -17,21 +17,6 @@ import java.util.function.Function;
  */
 public class Literal<T> implements Parser<T> {
 
-    /**
-     * A single space {@code " "}
-     */
-    public static final Literal<Void> SPACE = new Literal<>(" ");
-
-    /**
-     * A single comma {@code ","}
-     */
-    public static final Literal<Void> COMMA = new Literal<>(",");
-
-    /**
-     * A single semicolon {@code ";"}
-     */
-    public static final Literal<Void> SEMICOLON = new Literal<>(";");
-
     private final String literal;
     private final T value;
 

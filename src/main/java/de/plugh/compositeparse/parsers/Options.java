@@ -5,6 +5,7 @@ import de.plugh.compositeparse.ParseException;
 import de.plugh.compositeparse.Parser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -25,9 +26,7 @@ public class Options<T> implements Parser<T> {
     @SafeVarargs
     public Options(Parser<T>... parsers) {
         this.parsers = new ArrayList<>();
-        for (Parser<T> parser : parsers) {
-            this.parsers.add(parser);
-        }
+        Collections.addAll(this.parsers, parsers);
     }
 
     /**

@@ -74,7 +74,6 @@ public class BoundedInteger implements Parser<Integer> {
      * @param max maximum size of the integer
      * @return the {@link BoundedInteger}
      */
-
     public static BoundedInteger between(int min, int max) {
         return new BoundedInteger(min, max);
     }

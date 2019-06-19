@@ -1,7 +1,6 @@
 package de.plugh.compositeparse.parsers;
 
 import de.plugh.compositeparse.Block;
-import de.plugh.compositeparse.ParseException;
 import de.plugh.compositeparse.Parser;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class Constant<T> implements Parser<T> {
     }
 
     @Override
-    public T read(Block block) throws ParseException {
+    public T read(Block block) {
         return value;
     }
 
