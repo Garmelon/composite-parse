@@ -10,10 +10,16 @@ public class TextNode extends Node {
 
     @Override
     public String prettyPrint(String indent, boolean newline) {
+        String trimmed = text.trim();
+        if (trimmed.isEmpty()) {
+            return "";
+        }
+
+        String result = indent + trimmed;
         if (newline) {
-            return indent + text.trim() + "\n";
+            return result + "\n";
         } else {
-            return indent + text.trim();
+            return result;
         }
     }
 

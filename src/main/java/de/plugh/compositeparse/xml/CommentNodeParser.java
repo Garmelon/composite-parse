@@ -6,7 +6,15 @@ import de.plugh.compositeparse.Parser;
 import de.plugh.compositeparse.parsers.Expression;
 import de.plugh.compositeparse.parsers.Literal;
 
+import java.util.List;
+import java.util.function.Function;
+
 public class CommentNodeParser implements Parser<CommentNode> {
+
+    @Override
+    public Function<List<Block>, String> getNamingScheme() {
+        return Block.label("xml comment");
+    }
 
     @Override
     public CommentNode read(Block block) throws ParseException {

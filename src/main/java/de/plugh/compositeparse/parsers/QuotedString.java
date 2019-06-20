@@ -3,6 +3,7 @@ package de.plugh.compositeparse.parsers;
 import de.plugh.compositeparse.Block;
 import de.plugh.compositeparse.ParseException;
 import de.plugh.compositeparse.Parser;
+import de.plugh.compositeparse.StringInput;
 
 import java.util.List;
 import java.util.function.Function;
@@ -31,7 +32,8 @@ public class QuotedString implements Parser<String> {
         StringBuilder result = new StringBuilder();
         boolean escaped = false;
         while (true) {
-            String s = block.getInput().read(1);
+            StringInput input = block.getInput();
+            String s = input.read(1);
 
             if (s.isEmpty()) {
                 throw new ParseException(block);
@@ -39,6 +41,7 @@ public class QuotedString implements Parser<String> {
                 result.append(s);
                 escaped = false;
             } else if (s.equals(quoteChar)) {
+                input.move(-1);
                 break;
             } else if (s.equals("\\")) {
                 escaped = true;
@@ -46,6 +49,8 @@ public class QuotedString implements Parser<String> {
                 result.append(s);
             }
         }
+
+        Literal.literally(quoteChar).parse(block);
 
         return result.toString();
     }

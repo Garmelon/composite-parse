@@ -4,23 +4,24 @@ import de.plugh.compositeparse.Block;
 import de.plugh.compositeparse.Pair;
 import de.plugh.compositeparse.ParseException;
 import de.plugh.compositeparse.Parser;
-import de.plugh.compositeparse.parsers.Decision;
-import de.plugh.compositeparse.parsers.Expression;
-import de.plugh.compositeparse.parsers.Literal;
-import de.plugh.compositeparse.parsers.Repeat;
+import de.plugh.compositeparse.parsers.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ElementNodeParser implements Parser<ElementNode> {
 
-    private static final String REGEX_NAME = "[:a-zA-Z_][:a-zA-Z0-9_.-]*";
+    @Override
+    public Function<List<Block>, String> getNamingScheme() {
+        return Block.label("xml element node");
+    }
 
     @Override
     public ElementNode read(Block block) throws ParseException {
         Literal.literally("<").parse(block);
-        String name = new Expression(REGEX_NAME).parse(block);
+        String name = new Label<>("tag name", new Expression(NodeParser.REGEX_NAME)).parse(block);
 
         Map<String, String> attributes = new AttributesParser().parse(block);
 
@@ -39,7 +40,7 @@ public class ElementNodeParser implements Parser<ElementNode> {
                         Literal.literally(">"),
                         block1 -> {
                             List<Node> foundSubnodes = new Repeat<>(new NodeParser()).parse(block);
-                            Literal.literally("</" + name + ">").parse(block1);
+                            new Label<>("closing tag", Literal.literally("</" + name + ">")).parse(block1);
                             return foundSubnodes;
                         }
                 )

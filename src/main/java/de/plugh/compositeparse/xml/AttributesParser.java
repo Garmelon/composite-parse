@@ -14,14 +14,12 @@ import java.util.Map;
 
 public class AttributesParser implements Parser<Map<String, String>> {
 
-    private static final String REGEX_NAME = "[:a-zA-Z_][:a-zA-Z0-9_.-]*";
-
     @Override
     public Map<String, String> read(Block block) throws ParseException {
         List<Attribute> attributes = new Repeat<>(block1 -> {
-            Repeat.atLeast(1, Literal.literally(" ")).parse(block1);
+            new Expression("^\\s+").parse(block1);
 
-            String name = new Expression(REGEX_NAME).parse(block1);
+            String name = new Expression(NodeParser.REGEX_NAME).parse(block1);
             Literal.literally("=").parse(block1);
             String value = new QuotedString().parse(block1);
 

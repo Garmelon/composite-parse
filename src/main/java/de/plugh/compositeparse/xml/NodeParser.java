@@ -7,6 +7,8 @@ import de.plugh.compositeparse.parsers.Options;
 
 public class NodeParser implements Parser<Node> {
 
+    static final String REGEX_NAME = "[:a-zA-Z_][:a-zA-Z0-9_.-]*";
+
     @Override
     public Node read(Block block) throws ParseException {
         return new Options<>(
